@@ -100,5 +100,56 @@ or
 .\node_modules\.bin\electron .
 ```
 
+## Use nedb
 
+- To install :
 
+``` shell
+npm install nedb --save  
+```
+
+- To create and load the database add :
+
+```shell 
+var Datastore = require('nedb')
+  , db = new Datastore({ filename: 'path/to/datafile', autoload: true });
+```
+
+- Crud with nedb :
+
+  
+  
+  ```shell
+  // To insert
+  
+  db.insert(doc, function (err, newDoc) {   // Callback is optional
+  // newDoc is the newly inserted document, including its _id
+  // newDoc has no key called notToBeSaved since its value was undefined
+});
+
+  // To read
+  
+  db.find({ value you want to find }, function (err, docs) {
+  // docs is an array containing documents Mars, Earth, Jupiter
+  // If no document is found, docs is equal to []
+});
+
+  // To update
+  
+   db.update({ planet: 'Jupiter' }, { planet: 'Pluton'}, {}, function (err, numReplaced) {
+  // numReplaced = 1
+  // The doc #3 has been replaced by { _id: 'id3', planet: 'Pluton' }
+  // Note that the _id is kept unchanged, and the document has been replaced
+  // (the 'system' and inhabited fields are not here anymore)
+});
+   
+   // To delete
+   
+   db.remove({ _id: 'id2' }, {}, function (err, numRemoved) {
+  // numRemoved = 1
+});
+  
+  
+  
+
+  

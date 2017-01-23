@@ -22,7 +22,7 @@
     <div class="col-md-6 col-md-offset-3">
       <ul class="list-group" *ngIf="tasks">
         <li class="list-group-item" *ngFor="let task of tasks;">
-          <input type="checkbox" (click)="updateTask(task)" class="checkbox" [(ngModel)]="task.completed" />
+          <input type="checkbox"  class="checkbox" [(ngModel)]="task.completed" />
           <span [ngClass]="{'checked': task.completed}">{{ task.newTask }}</span>
           <span (click)="deleteTask(task)" style="cursor:pointer">[x]</span>
 </li>

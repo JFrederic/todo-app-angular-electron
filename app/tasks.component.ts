@@ -17,7 +17,6 @@ export class TasksComponent {
      constructor() {
          this.newTask = '';
          this.db = new Datastore({ filename: 'db/tasks.json', autoload: true });
-      
          this.getAll();
          this.updateTask
      }
@@ -48,7 +47,7 @@ export class TasksComponent {
 
     public updateTask(task:any){
         task.completed? task.completed = false : task.completed = true  
-        this.db.update({ task }, { $set : { complete: task.completed }})
+        this.db.update({ _id : task._id }, { $set : { complete: task.completed }})
     } 
     
     public deleteTask(task:any){
@@ -58,13 +57,11 @@ export class TasksComponent {
     }
 
     public deleteCheckedTask(task:any){
-        if(task.completed){
+        if(this.task.completed){
             console.log(task.completed)
-            this.db.remove(task);
-        }
-
+            this.db.remove({_id : task._id});
             this.getAll();
-        
+        }        
     }
 
     public deleteAllTask(tasks:any[]){

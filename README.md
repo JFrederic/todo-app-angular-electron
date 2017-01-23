@@ -108,6 +108,8 @@ or
 npm install nedb --save  
 ```
 
+- Add `'nedb': 'npm:nedb/browser-version/out/nedb.min.js'` in the bundler config
+
 - To create and load the database add :
 
 ```shell 

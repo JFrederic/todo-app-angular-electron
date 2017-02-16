@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import Datastore = require('nedb');
+import { Http,Headers } from '@angular/http'
+
 
 @Component({
     moduleId: module.id,
@@ -29,10 +31,7 @@ export class TasksComponent {
          }
         this.db.insert(this.task, (err: Error)=>{
             if(err) throw Error
-
             this.getAll();
-             console.log(this.tasks)
-            
         });
         
          
@@ -48,6 +47,7 @@ export class TasksComponent {
     public updateTask(task:any){
         task.completed? task.completed = false : task.completed = true  
         this.db.update({ _id : task._id }, { $set : { complete: task.completed }})
+        console.log(task.completed)
     } 
     
     public deleteTask(task:any){
@@ -56,19 +56,38 @@ export class TasksComponent {
         this.getAll();
     }
 
-    public deleteCheckedTask(task:any){
-        if(this.task.completed){
-            console.log(task.completed)
-            this.db.remove({_id : task._id});
-            this.getAll();
-        }        
-    }
+    public deleteCheckedTask(tasks:any[]){
+        for(let task of tasks){
+            if(task.completed){
+                this.db.remove({},{multi:true});
+        }
+    }    
+    console.log(tasks)
+}
 
     public deleteAllTask(tasks:any[]){
             this.db.remove({},{multi:true})
             this.getAll();
     }
 
-    
-    get diagnostic() { return JSON.stringify(this.task);}
 }
+
+
+export class QueryService {
+  static get parameters() {                                                                                                                    
+    return [[Http]]                                                                                                            
+  }  
+
+  todo:any = new TasksComponent()
+
+  constructor(public http: Http) {                                                                                                            
+    this.http = http;                                                                                                                          
+  }
+
+  onFormSubmit(){
+    var headers = new Headers();
+    headers.append('Content-Type','application/json')
+     return this.http.post('http://localhost:3000/addtask', JSON.stringify(this.todo.getAll()), { headers: headers });
+  }                                                                                                                                       
+
+

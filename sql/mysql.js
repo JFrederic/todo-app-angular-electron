@@ -32,4 +32,5 @@ app.post('/addtask',function(req,res){
 })
  
 connection.end();
+app.listen(5000)
   
